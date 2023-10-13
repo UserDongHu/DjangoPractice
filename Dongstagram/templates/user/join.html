@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원가입</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <body style="background: #FAFAFA;">
+    <div style="display: flex; flex-direction: column; align-items: center;"> 
+        <div style="padding: 40px; text-align: center; border: solid 1px rgba(219,219,219,1); width: 350px; height: flex; margin-top: 30px; background: white;">
+          <div style="padding-bottom: 10px;"><img style="width: 150px; object-fit: contain" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"></div>
+          <div style="padding-bottom: 20px; font-weight: bold; color: gray;"> 친구들의 사진과 동영상을 보려면 가입하세요. </div>
+          <div>
+            <div class="form-floating mb-3">
+            <input style="font-size: 14px; height: 24px;" type="email" class="form-control" id="email_input" placeholder="name@example.com">
+            <label style="font-size: 14px; padding: 4px 10px; color: gray;" for="email_input">이메일 주소</label>
+            </div>
+          </div>
+          <div>
+            <div class="form-floating mb-3">
+            <input style="font-size: 14px; height: 24px;" type="text" class="form-control" id="name_input" placeholder="name">
+            <label style="font-size: 14px; padding: 4px 10px; color: gray;" for="name_input">성명</label>
+            </div>
+          </div>
+          <div>
+            <div class="form-floating mb-3">
+            <input style="font-size: 14px; height: 24px;" type="text" class="form-control" id="nickname_input" placeholder="user">
+            <label style="font-size: 14px; padding: 4px 10px; color: gray;" for="nickname_input">닉네임</label>
+            </div>
+          </div>
+          <div>
+            <div class="form-floating mb-3">
+            <input style="font-size: 14px; height: 24px;" type="password" class="form-control" id="password_input" placeholder="password">
+            <label style="font-size: 14px; padding: 4px 10px; color: gray;" for="password_input">비밀번호</label>
+            </div>
+          </div>
+          <button id="join_button" style="width: 100%;" type="button" class="btn btn-primary">가입</button>
+        </div>
+        <div style="padding: 40px; text-align: center; border: solid 1px rgba(219,219,219,1); width: 350px; height: flex; margin-top: 10px; background: white;">
+        <div> 계정이 있으신가요? <a href="login">로그인</a> </div>
+        </div>
+    </div>
+    <script>
+      $('#join_button').click(function(){
+        let email = $('#email_input').val();
+        let name = $('#name_input').val();
+        let nickname = $('#nickname_input').val();
+        let password = $('#password_input').val();
+
+        $.ajax({
+          url: "/user/join",
+          data: {
+            email : email,
+            name : name,
+            nickname : nickname,
+            password : password
+          },
+          method: "POST",
+          success: function(data){
+            console.log("성공");
+            alert("회원가입 성공했습니다. 로그인해주세요.")
+            location.replace("/user/login");
+          },
+          error: function(request, status, error){
+            console.log("에러");
+          },
+          complete: function(){
+            console.log("완료");
+          }
+        })
+      })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>

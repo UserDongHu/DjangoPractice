@@ -1,0 +1,18 @@
+{% extends 'blog/menu.html' %}
+
+{% block content %}
+<h1>게시판</h1>
+<form action="" method="get">
+    <input name="q" type="search">
+    <button type="submit">검색</button>
+</form>
+<ul>
+    {% for post_detail in db %}
+    <li>
+        <a href="{% url 'blog:post' post_detail.id %}">{{ post_detail.title }}</a>
+        <p>{{post_detail.contents}}</p>
+    </li>
+    {% endfor %}
+</ul>
+<button type="button" onclick="location.href='{% url 'blog:create' %}'">글쓰기</button>
+{% endblock %}

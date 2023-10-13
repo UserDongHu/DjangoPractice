@@ -1,0 +1,16 @@
+{% extends 'blog/menu.html' %}
+
+{% block content %}
+<h1>블로그 글 목록</h1>
+<!-- input값을 ?q=검색할내용 으로 보냄 -->
+<form action="" method="get">
+    <input name="q" type="search">
+    <button type="submit">검색</button>
+</form>
+<ul>
+    {% for i in db %}
+    <p><a href="{% url 'blog:post' i.id%}">{{i.title}}</a></p>
+    <p>{{i.created_at}}</p>
+    {% endfor %}
+</ul>
+{% endblock %}

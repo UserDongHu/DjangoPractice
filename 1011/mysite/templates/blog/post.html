@@ -1,0 +1,11 @@
+{% extends 'blog/menu.html' %}
+
+{% block content %}
+<h1>{{db.title}}</h1>
+<p>{{db.contents}}</p>
+<p>{{db.updated_at}}</p>
+{% if db.main_image %}
+<!-- db.main_image.url : image의 경로 -->
+<img src="{{db.main_image.url}}">
+{% endif %}
+{% endblock %}

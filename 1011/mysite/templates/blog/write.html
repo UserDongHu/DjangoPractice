@@ -1,0 +1,13 @@
+{% extends 'blog/menu.html' %}
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="title">제목</label>
+    <input id="title" name="title" type="text">
+    <label for="contents">내용</label>
+    <textarea id="contents" name="contents"></textarea>
+    <input type="file" name="image">
+    <button type="submit">저장</button>
+</form>
+{% endblock %}
