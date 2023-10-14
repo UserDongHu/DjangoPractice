@@ -1,0 +1,15 @@
+{% extends "menu.html" %}
+{% block content %}
+<h1>My Profile</h1>
+<p>ID : {{ user.username }}</p>
+<p>이메일 : {{ user.email }}</p>
+<h2>내가 쓴 글</h2>
+<ul>
+    {% for mypost in post %}
+    <li>
+        <a href="{% url 'blog:post' mypost.id %}">{{ mypost.title }}</a>
+        <p>{{mypost.contents}}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

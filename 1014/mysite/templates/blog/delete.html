@@ -1,0 +1,10 @@
+{% extends 'menu.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>블로그 글 "{{post.title}}" 을 삭제하시겠습니까?</p>
+    <input type="submit" name="confirm" value="네" class="btn btn-primary">
+    <input type="submit" name="confirm" value="아니요" class="btn btn-primary">
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+<h2><a href="{% url 'main:index' %}">My Blog</a></h2>
+<a href="{% url 'main:about' %}">about</a>
+<a href="{% url 'main:contact' %}">contact</a>
+<br>
+{% if user.is_authenticated %}
+<p>안녕하세요 {{user.username}}님</p>
+<a href="{% url 'accounts:logout' %}">logout</a>
+<a href="{% url 'accounts:profile' %}">profile</a>
+<a href="{% url 'blog:create' %}">글쓰기</a>
+<br>
+{% else %}
+<a href="{% url 'accounts:login' %}">login</a>
+<a href="{% url 'accounts:signup' %}">signup</a>
+<br>
+{% endif %}
+{% block content %}
+{% endblock %}

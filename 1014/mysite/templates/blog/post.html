@@ -1,0 +1,14 @@
+{% extends "menu.html" %}
+{% block content %}
+<h1>게시판</h1>
+<p>{{post.title}}</p>
+<p>{{post.contents}}</p>
+<p>{{post.auth}}</p>
+<p>{{post.updated_at}}</p>
+{% if post.main_image %}
+<img src="{{ post.main_image.url }}" alt="">
+{% endif %}
+<br>
+<button type="button" onclick="location.href='{% url 'blog:update' post.pk %}'">수정하기</button>
+<button type="button" onclick="location.href='{% url 'blog:delete' post.pk %}'">삭제하기</button>
+{% endblock %}
