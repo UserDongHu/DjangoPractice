@@ -1,0 +1,13 @@
+<h2>Post List</h2>
+<form action="" method="get">
+    <input name="q" type="search">
+    <button type="submit">검색</button>
+</form>
+<ul>
+    {% for post in object_list %}
+    <li>
+        <p><a href="{% url 'blog:postdetail' post.pk %}">{{ post.title }}</a></p>
+        <p>{{ post.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
