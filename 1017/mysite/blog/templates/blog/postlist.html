@@ -1,0 +1,16 @@
+<form action="" method="GET">
+    <input type="text" name="q">
+    <button type="submit">검색</button>
+</form>
+{% for i in posts %}
+    <h1><a href="{% url 'blog:postdetail' i.pk%}">{{ i.title }}</a></h1>
+    <p>{{ i.content }}</p>
+    <p>{{ i.author }}</p>
+    {% for comment in i.comments.all %}
+        <p>{{ comment.message }}</p>
+    {% endfor %}
+    {% for tag in i.tags.all %}
+        <p>{{ tag.name }}</p>
+    {% endfor %}
+    <hr>
+{% endfor %}
