@@ -39,12 +39,12 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm() # context데이터에 comment_form을 추가해서 같이 전달
         return context
     
-    def get_object(self, queryset=None): # PostDetailView에서 사용할 object를 변경해서 반환.
-        pk = self.kwargs['pk']
-        post = Post.objects.get(pk=pk)
-        post.view_count += 1
-        post.save()
-        return super().get_object(queryset)
+    def get_object(self): # PostDetailView에서 사용할 object를 변경해서 반환.
+        pk = self.kwargs['pk'] # kwargs로 전달된 pk 저장
+        post = super().get_object() # 원래 사용할 object
+        post.view_count += 1 # view_count를 늘림
+        post.save() # 저장
+        return post # 반환
     
 post_detail = PostDetailView.as_view()
 
