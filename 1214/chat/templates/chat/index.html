@@ -1,0 +1,97 @@
+<!-- chat/templates/chat/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Chat</title>
+</head>
+<body>
+    <div>
+        <label for="room_name">Room Name:</label>
+        <input type="text" id="room_name" placeholder="Enter room name">
+        <button onclick="createRoom()">Create Room</button>
+    </div>
+    <hr>
+    <div>
+        <label for="message">Message:</label>
+        <input type="text" id="message" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send Message</button>
+    </div>
+    <hr>
+    <div id="chat-log"></div>
+
+    <script>
+        const roomNameInput = document.querySelector('#room_name');
+        const messageInput = document.querySelector('#message');
+        const chatLog = document.querySelector('#chat-log');
+        let socket;
+
+        function createRoom() {
+            const roomName = roomNameInput.value;
+
+            fetch('/api/chat/room/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ 'name': roomName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Room created:', data);
+                initializeWebSocket(data.chat_url);
+            });
+        }
+
+        function initializeWebSocket(chatUrl) {
+            if (socket) {
+                socket.close();
+            }
+
+            socket = new WebSocket(`ws://${window.location.host}${chatUrl}`);
+
+            socket.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                const messageElement = document.createElement('p');
+                messageElement.innerHTML = data.message;
+                chatLog.appendChild(messageElement);
+            };
+
+            socket.onclose = function (event) {
+                console.error('Chat socket closed unexpectedly');
+            };
+        }
+
+        function sendMessage() {
+            const message = messageInput.value;
+
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    'type': 'chat.message',
+                    'message': message
+                }));
+            }
+
+            messageInput.value = '';
+        }
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
